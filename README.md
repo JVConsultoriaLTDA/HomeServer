@@ -48,6 +48,8 @@ Home automation stack running [n8n](https://n8n.io/) workflows exposed via [ngro
    TELEGRAM_BOT_TOKEN_EXPENSE="your_expense_bot_token"
    TELEGRAM_BOT_TOKEN_NUTRIENT="your_nutrient_bot_token"
    GOOGLE_GEMINI_API_KEY="your_gemini_api_key_AIza..."
+   GOOGLE_SHEETS_OAUTH_CLIENT_ID="your_oauth_client_id"
+   GOOGLE_SHEETS_OAUTH_CLIENT_SECRET="your_oauth_client_secret"
    ```
 
 ### 2. Start the Stack
@@ -61,8 +63,9 @@ This will start n8n (port 5678) and ngrok (port 4040).
 2. Import the workflow JSONs from `ExpenseTracker/` and `NutrientTracker/`.
 3. **Configure Credentials**:
    - **Telegram API**: Create credentials using the tokens from `.env` (or let n8n use the environment variables if configured in the node).
-   - **Google Gemini API**: Create a credential using your API Key.
+   - **Google Gemini API**: Create a credential using your API Key (or use `{{ $env.GOOGLE_GEMINI_API_KEY }}` if you prefer).
    - **Google Sheets OAuth2 API**: Create a credential using your GCP Client ID/Secret.
+     - You can copy the values from your `.env` file or use `{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_ID }}` and `{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_SECRET }}` in the credential fields (set to expression mode).
      - *Note*: You must set up a project in Google Cloud Console, enable Sheets API, and create OAuth credentials.
      - The `Redirect URL` in GCP should be: `https://<your-ngrok-url>/rest/oauth2-credential/callback`
 
