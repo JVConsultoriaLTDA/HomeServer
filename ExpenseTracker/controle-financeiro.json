@@ -3,7 +3,9 @@
   "nodes": [
     {
       "parameters": {
-        "updates": ["message"],
+        "updates": [
+          "message"
+        ],
         "additionalFields": {
           "download": true
         }
@@ -12,7 +14,10 @@
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
-      "position": [-1800, 0],
+      "position": [
+        -1800,
+        0
+      ],
       "webhookId": "a1b2c3d4-webhook-0001",
       "credentials": {
         "telegramApi": {
@@ -50,7 +55,10 @@
       "name": "É Áudio?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [-1560, 0],
+      "position": [
+        -1560,
+        0
+      ],
       "alwaysOutputData": true
     },
     {
@@ -63,7 +71,10 @@
       "name": "Telegram GetFile",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1,
-      "position": [-1320, 0],
+      "position": [
+        -1320,
+        0
+      ],
       "alwaysOutputData": true,
       "credentials": {
         "telegramApi": {
@@ -82,14 +93,17 @@
           "mode": "list",
           "cachedResultName": "models/gemini-2.0-flash"
         },
-        "text": "=Você é um assistente financeiro que analisa gravações de voz em português do Brasil.\nSua tarefa é transcrever o áudio e extrair os seguintes dados de uma despesa:\n\n{\n  \"descricao\": \"\",\n  \"categoria\": \"\",\n  \"data\": \"\",\n  \"valor\": 0,\n  \"dividido\": \"\"\n}\n\nRegras:\n- \"descricao\": descreva em poucas palavras a despesa mencionada (ex: \"almoço na padaria\", \"uber para o trabalho\").\n- \"categoria\": classifique em uma das opções: [\"Alimentação\", \"Transporte\", \"Saúde\", \"Moradia\", \"Lazer\", \"Educação\", \"Outros\"].\n- \"data\": use o formato ISO (YYYY-MM-DD).\n  - Se o áudio mencionar \"hoje\", \"ontem\" ou um dia da semana, interprete em relação à data da mensagem (DataMensagem: {{ new Date($node[\"Telegram Trigger\"].json.message.date * 1000).toISOString().slice(0,10) }}).\n- \"valor\": número em reais (aceite expressões como \"45 reais\", \"R$ 23,50\", \"vinte e cinco reais\"). Se não for mencionado, coloque 0.\n- \"dividido\": se o áudio mencionar que foi dividido, rachado, metade, split, ou compartilhado com alguém (namorada, parceira, etc), coloque \"Sim\". Caso contrário, coloque \"Não\".\n\nImportante:\n- Sempre responda somente JSON válido, sem texto extra, explicações ou comentários.\n- Não adicione ```json no inicio, comece direto em \"{\".\n- Não invente valores nem categorias — se não tiver certeza, use \"Outros\".\n",
+        "text": "=Você é um assistente financeiro que analisa gravações de voz em português do Brasil.\nSua tarefa é transcrever o áudio e extrair os seguintes dados de uma despesa:\n\n{\n  \"descricao\": \"\",\n  \"categoria\": \"\",\n  \"data\": \"\",\n  \"valor\": 0,\n  \"dividido\": \"\",\n  \"tipo\": \"\"\n}\n\nRegras:\n- \"descricao\": descreva em poucas palavras a despesa mencionada (ex: \"almoço na padaria\", \"uber para o trabalho\").\n- \"categoria\": classifique em uma das opções: [\"Alimentação\", \"Transporte\", \"Saúde\", \"Moradia\", \"Lazer\", \"Educação\", \"Outros\"].\n- \"data\": use o formato ISO (YYYY-MM-DD).\n  - Se o áudio mencionar \"hoje\", \"ontem\" ou um dia da semana, interprete em relação à data da mensagem (DataMensagem: {{ new Date($node[\"Telegram Trigger\"].json.message.date * 1000).toISOString().slice(0,10) }}).\n- \"valor\": número em reais (aceite expressões como \"45 reais\", \"R$ 23,50\", \"vinte e cinco reais\"). Se não for mencionado, coloque 0.\n- \"dividido\": se o áudio mencionar que foi dividido, rachado, metade, split, ou compartilhado com alguém (namorada, parceira, etc), coloque \"Sim\". Caso contrário, coloque \"Não\".\n- \"tipo\": se o áudio mencionar \"empresa\", \"firma\", \"trabalho\", \"CNPJ\" ou \"reembolso\", coloque \"BUSINESS\". Caso contrário, coloque \"PERSONAL\".\n\nImportante:\n- Sempre responda somente JSON válido, sem texto extra, explicações ou comentários.\n- Não adicione ```json no inicio, comece direto em \"{\".\n- Não invente valores nem categorias — se não tiver certeza, use \"Outros\".\n",
         "inputType": "binary",
         "binaryPropertyName": "=data",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1,
-      "position": [-1080, 0],
+      "position": [
+        -1080,
+        0
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000004",
       "name": "Gemini Analisa Áudio",
       "credentials": {
@@ -101,11 +115,14 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json.content.parts[0].text;\nlet cleaned = raw.trim()\n  .replace(/^```json\\s*/i, '')\n  .replace(/^```\\s*/i, '')\n  .replace(/```$/i, '')\n  .replace(/^\\uFEFF/, '');\n\nlet data;\ntry {\n  data = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Não consegui fazer JSON.parse do retorno do modelo. Conteúdo:\\n\" + cleaned);\n}\n\nreturn [{\n  json: {\n    descricao: data.descricao || '',\n    categoria: data.categoria || 'Outros',\n    data: data.data || new Date().toISOString().slice(0,10),\n    valor: Number(data.valor) || 0,\n    dividido: data.dividido || 'Não'\n  }\n}];\n"
+        "jsCode": "const raw = $input.first().json.content.parts[0].text;\nlet cleaned = raw.trim()\n  .replace(/^```json\\s*/i, '')\n  .replace(/^```\\s*/i, '')\n  .replace(/```$/i, '')\n  .replace(/^\\uFEFF/, '');\n\nlet data;\ntry {\n  data = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Não consegui fazer JSON.parse do retorno do modelo. Conteúdo:\\n\" + cleaned);\n}\n\nreturn [{\n  json: {\n    descricao: data.descricao || '',\n    categoria: data.categoria || 'Outros',\n    data: data.data || new Date().toISOString().slice(0,10),\n    valor: Number(data.valor) || 0,\n    dividido: data.dividido || 'Não',\n    tipo: data.tipo || 'PERSONAL'\n  }\n}];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-840, 0],
+      "position": [
+        -840,
+        0
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000005",
       "name": "Parseia JSON"
     },
@@ -114,14 +131,13 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "YOUR_SPREADSHEET_ID",
+          "value": "={{ $env.SPREADSHEET_ID_EXPENSE }}",
           "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Sheet1"
+          "value": "={{ $json.tipo === 'BUSINESS' ? $env.SHEET_NAME_SECONDARY : $env.SHEET_NAME_MAIN }}",
+          "mode": "name"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -134,18 +150,61 @@
           },
           "matchingColumns": [],
           "schema": [
-            { "id": "Data", "displayName": "Data", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "Descrição", "displayName": "Descrição", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "Valor", "displayName": "Valor", "required": false, "defaultMatch": false, "display": true, "type": "number", "canBeUsedToMatch": true },
-            { "id": "Categoria", "displayName": "Categoria", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "Dividido", "displayName": "Dividido", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+            {
+              "id": "Data",
+              "displayName": "Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Descrição",
+              "displayName": "Descrição",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Valor",
+              "displayName": "Valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoria",
+              "displayName": "Categoria",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Dividido",
+              "displayName": "Dividido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
           ]
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [-600, 0],
+      "position": [
+        -600,
+        0
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000006",
       "name": "Google Sheets",
       "credentials": {
@@ -158,12 +217,15 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=Despesa registrada! ✅\n\n{{ $('Parseia JSON').item.json.descricao }} - R$ {{ $('Parseia JSON').item.json.valor }}\nCategoria: {{ $('Parseia JSON').item.json.categoria }}\nDividido: {{ $('Parseia JSON').item.json.dividido }}",
+        "text": "=Despesa registrada! ✅\n\n{{ $('Parseia JSON').item.json.descricao }} - R$ {{ $('Parseia JSON').item.json.valor }}\nCategoria: {{ $('Parseia JSON').item.json.categoria }}\nDividido: {{ $('Parseia JSON').item.json.dividido }}\nDestino: {{ $('Parseia JSON').item.json.tipo === 'BUSINESS' ? 'Business' : 'Pessoal' }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [-360, 0],
+      "position": [
+        -360,
+        0
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000007",
       "name": "Responde no Telegram",
       "credentials": {
