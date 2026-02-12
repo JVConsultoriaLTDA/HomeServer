@@ -75,6 +75,13 @@ This will start n8n (port 5678) and ngrok (port 4040).
    - `SHEET_NAME_SECONDARY`: Same as in `.env`
 5. Run the `criarResumoEGrafico` function to generate charts.
 
+### 5. Configure Google Apps Script (For Nutrient Charts)
+1. Open your target Google Spreadsheet (for nutrition).
+2. Ensure your data sheet is named **"Tabela"**.
+3. Go to `Extensions` > `Apps Script`.
+4. Copy the content of [`google-apps-script-nutricional.js`](NutrientTracker/google-apps-script-nutricional.js).
+5. Run the `criarResumoNutricional` function to generate charts.
+
 ## Usage
 
 ```bash
