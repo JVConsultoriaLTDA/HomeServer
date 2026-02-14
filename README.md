@@ -47,7 +47,7 @@ Home automation stack running [n8n](https://n8n.io/) workflows exposed via [ngro
    # API Keys & Tokens
    TELEGRAM_BOT_TOKEN_EXPENSE="your_expense_bot_token"
    TELEGRAM_BOT_TOKEN_NUTRIENT="your_nutrient_bot_token"
-   GOOGLE_GEMINI_API_KEY="your_gemini_api_key_AIza..."
+   GOOGLE_GEMINI_API_KEY="your_gemini_api_key"
    GOOGLE_SHEETS_OAUTH_CLIENT_ID="your_oauth_client_id"
    GOOGLE_SHEETS_OAUTH_CLIENT_SECRET="your_oauth_client_secret"
    ```
@@ -62,10 +62,14 @@ This will start n8n (port 5678) and ngrok (port 4040).
 1. Access **n8n** at http://localhost:5678.
 2. Import the workflow JSONs from `ExpenseTracker/` and `NutrientTracker/`.
 3. **Configure Credentials**:
-   - **Telegram API**: Create credentials using the tokens from `.env` (or let n8n use the environment variables if configured in the node).
-   - **Google Gemini API**: Create a credential using your API Key (or use `{{ $env.GOOGLE_GEMINI_API_KEY }}` if you prefer).
-   - **Google Sheets OAuth2 API**: Create a credential using your GCP Client ID/Secret.
-     - You can copy the values from your `.env` file or use `{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_ID }}` and `{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_SECRET }}` in the credential fields (set to expression mode).
+   - **General Tip**: To keep credentials dynamic and driven by `.env`, always use **Expression Mode** (click the `{{ }}` icon next to any field) and use the `$env` variable.
+   - **Telegram API**: 
+     - Create a credential for each bot. 
+     - Set the `Access Token` to expression mode and enter: `{{ $env.TELEGRAM_BOT_TOKEN_EXPENSE }}` or `{{ $env.TELEGRAM_BOT_TOKEN_NUTRIENT }}`.
+   - **Google Gemini API**: 
+     - Create a credential using your API Key and set it to expression mode: `{{ $env.GOOGLE_GEMINI_API_KEY }}`.
+   - **Google Sheets OAuth2 API**: 
+     - Use expression mode for `Client ID` (`{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_ID }}`) and `Client Secret` (`{{ $env.GOOGLE_SHEETS_OAUTH_CLIENT_SECRET }}`).
      - *Note*: You must set up a project in Google Cloud Console, enable Sheets API, and create OAuth credentials.
      - The `Redirect URL` in GCP should be: `https://<your-ngrok-url>/rest/oauth2-credential/callback`
 
@@ -109,3 +113,8 @@ alias home-server-logs="docker compose -f ~/Documents/GitHub/HomeServer/docker-c
 ## Troubleshooting
 - **n8n Error "Access to env vars denied"**: Ensure `N8N_BLOCK_ENV_ACCESS_IN_NODE=false` is set in `docker-compose.yml` (it is by default in this repo).
 - **Ngrok URL Changes**: Update `WEBHOOK_URL` in `.env` and restart if the tunnel restarts.
+
+## Localization
+
+> [!NOTE]
+> Currently, all text generated for user consumption (e.g., Google Sheets headers, Apps Script summary tables, and generated charts) is in **Portuguese (PT-BR)**.

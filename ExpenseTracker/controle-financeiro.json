@@ -52,7 +52,7 @@
         "options": {}
       },
       "id": "a1b2c3d4-0001-0001-0001-000000000002",
-      "name": "É Áudio?",
+      "name": "Is Audio?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
@@ -105,7 +105,7 @@
         0
       ],
       "id": "a1b2c3d4-0001-0001-0001-000000000004",
-      "name": "Gemini Analisa Áudio",
+      "name": "Gemini Analyze Audio",
       "credentials": {
         "googlePalmApi": {
           "id": "",
@@ -124,7 +124,7 @@
         0
       ],
       "id": "a1b2c3d4-0001-0001-0001-000000000005",
-      "name": "Parseia JSON"
+      "name": "Parse JSON"
     },
     {
       "parameters": {
@@ -217,7 +217,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=Despesa registrada! ✅\n\n{{ $('Parseia JSON').item.json.descricao }} - R$ {{ $('Parseia JSON').item.json.valor }}\nCategoria: {{ $('Parseia JSON').item.json.categoria }}\nDividido: {{ $('Parseia JSON').item.json.dividido }}\nDestino: {{ $('Parseia JSON').item.json.tipo === 'BUSINESS' ? 'Business' : 'Pessoal' }}",
+        "text": "=Despesa registrada! ✅\n\n{{ $('Parse JSON').item.json.descricao }} - R$ {{ $('Parse JSON').item.json.valor }}\nCategoria: {{ $('Parse JSON').item.json.categoria }}\nDividido: {{ $('Parse JSON').item.json.dividido }}\nDestino: {{ $('Parse JSON').item.json.tipo === 'BUSINESS' ? 'Business' : 'Pessoal' }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
@@ -227,7 +227,7 @@
         0
       ],
       "id": "a1b2c3d4-0001-0001-0001-000000000007",
-      "name": "Responde no Telegram",
+      "name": "Reply to Telegram",
       "credentials": {
         "telegramApi": {
           "id": "",
@@ -249,7 +249,7 @@
         ]
       ]
     },
-    "É Áudio?": {
+    "Is Audio?": {
       "main": [
         [
           {
@@ -272,7 +272,7 @@
         ]
       ]
     },
-    "Gemini Analisa Áudio": {
+    "Gemini Analyze Audio": {
       "main": [
         [
           {
@@ -283,7 +283,7 @@
         ]
       ]
     },
-    "Parseia JSON": {
+    "Parse JSON": {
       "main": [
         [
           {
