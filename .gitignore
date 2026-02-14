@@ -1,9 +1,12 @@
 .env
 .DS_Store
 n8n_data/
+*.log
 
 # Agent System
 .tmp/
+credentials.json
+token.json
 
 # Python
 **/__pycache__/
