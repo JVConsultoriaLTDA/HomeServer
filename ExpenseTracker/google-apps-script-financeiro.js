@@ -130,9 +130,60 @@ function criarResumoEGrafico() {
   SpreadsheetApp.getUi().alert("Resumo consolidado e gráficos criados!");
 }
 
+/**
+ * Aplica formatação condicional para alternar cores de fundo baseadas na data (Coluna A).
+ * Todas as linhas com a mesma data terão a mesma cor.
+ */
+function formatarAbasPorData() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const zebraLight = "#eef5eb";
+  const zebraDark = "#d9ead3";
+
+  // Obter apenas a aba principal configurada
+  const mainSheetName = PropertiesService.getScriptProperties().getProperty("SHEET_NAME_MAIN");
+  const sheet = ss.getSheetByName(mainSheetName);
+
+  if (!sheet) {
+    SpreadsheetApp.getUi().alert("Aba principal não encontrada. Verifique a configuração 'SHEET_NAME_MAIN'.");
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return;
+
+  const range = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn());
+
+  // Limpar regras existentes no intervalo
+  const rules = sheet.getConditionalFormatRules();
+  const newRules = rules.filter(rule => {
+    const ranges = rule.getRanges();
+    return !ranges.some(r => r.getA1Notation() === range.getA1Notation());
+  });
+
+  // Criar novas regras
+  const rule1 = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=ISODD(COUNTUNIQUE($A$2:$A2))")
+    .setBackground(zebraLight)
+    .setRanges([range])
+    .build();
+
+  const rule2 = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=ISEVEN(COUNTUNIQUE($A$2:$A2))")
+    .setBackground(zebraDark)
+    .setRanges([range])
+    .build();
+
+  newRules.push(rule1);
+  newRules.push(rule2);
+  sheet.setConditionalFormatRules(newRules);
+
+  SpreadsheetApp.getUi().alert("Formatação de cores por data aplicada à aba '" + mainSheetName + "'!");
+}
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("Controle Financeiro")
     .addItem("Atualizar Resumo e Gráficos", "criarResumoEGrafico")
+    .addItem("Formatar Cores por Data", "formatarAbasPorData")
     .addToUi();
 }
