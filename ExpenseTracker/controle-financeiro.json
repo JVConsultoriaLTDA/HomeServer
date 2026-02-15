@@ -18,7 +18,6 @@
         -1800,
         0
       ],
-      "webhookId": "a1b2c3d4-webhook-0001",
       "credentials": {
         "telegramApi": {
           "id": "",
@@ -242,7 +241,7 @@
       "main": [
         [
           {
-            "node": "É Áudio?",
+            "node": "Is Audio?",
             "type": "main",
             "index": 0
           }
@@ -265,7 +264,7 @@
       "main": [
         [
           {
-            "node": "Gemini Analisa Áudio",
+            "node": "Gemini Analyze Audio",
             "type": "main",
             "index": 0
           }
@@ -276,7 +275,7 @@
       "main": [
         [
           {
-            "node": "Parseia JSON",
+            "node": "Parse JSON",
             "type": "main",
             "index": 0
           }
@@ -298,7 +297,7 @@
       "main": [
         [
           {
-            "node": "Responde no Telegram",
+            "node": "Reply to Telegram",
             "type": "main",
             "index": 0
           }

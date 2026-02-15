@@ -18,7 +18,6 @@
         -2040,
         0
       ],
-      "webhookId": "b2c3d4e5-webhook-0002",
       "credentials": {
         "telegramApi": {
           "id": "",
@@ -40,11 +39,11 @@
                 "conditions": [
                   {
                     "id": "cond-photo",
-                    "leftValue": "={{ $json.message.photo }}",
-                    "rightValue": "",
+                    "leftValue": "={{ !!$json.message?.photo }}",
+                    "rightValue": "true",
                     "operator": {
-                      "type": "array",
-                      "operation": "notEmpty"
+                      "type": "boolean",
+                      "operation": "true"
                     }
                   }
                 ],
@@ -63,11 +62,11 @@
                 "conditions": [
                   {
                     "id": "cond-audio",
-                    "leftValue": "={{ $json.message.voice }}",
-                    "rightValue": "",
+                    "leftValue": "={{ !!$json.message?.voice }}",
+                    "rightValue": "true",
                     "operator": {
-                      "type": "object",
-                      "operation": "notEmpty"
+                      "type": "boolean",
+                      "operation": "true"
                     }
                   }
                 ],
@@ -260,71 +259,7 @@
             "Gordura (g)": "={{ $json.gordura }}"
           },
           "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Data",
-              "displayName": "Data",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Refeição",
-              "displayName": "Refeição",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Alimento",
-              "displayName": "Alimento",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Calorias",
-              "displayName": "Calorias",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Proteína (g)",
-              "displayName": "Proteína (g)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Carboidratos (g)",
-              "displayName": "Carboidratos (g)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Gordura (g)",
-              "displayName": "Gordura (g)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true
-            }
-          ]
+          "schema": []
         },
         "options": {}
       },
@@ -371,7 +306,7 @@
       "main": [
         [
           {
-            "node": "Tipo de Mensagem",
+            "node": "Message Type",
             "type": "main",
             "index": 0
           }
@@ -382,21 +317,21 @@
       "main": [
         [
           {
-            "node": "Telegram GetFile Foto",
+            "node": "Telegram GetFile Photo",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Telegram GetFile Áudio",
+            "node": "Telegram GetFile Audio",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Gemini Analisa Texto",
+            "node": "Gemini Analyze Text",
             "type": "main",
             "index": 0
           }
@@ -407,7 +342,7 @@
       "main": [
         [
           {
-            "node": "Gemini Analisa Foto",
+            "node": "Gemini Analyze Photo",
             "type": "main",
             "index": 0
           }
@@ -418,7 +353,7 @@
       "main": [
         [
           {
-            "node": "Gemini Analisa Áudio",
+            "node": "Gemini Analyze Audio",
             "type": "main",
             "index": 0
           }
@@ -429,7 +364,7 @@
       "main": [
         [
           {
-            "node": "Parseia JSON",
+            "node": "Parse JSON",
             "type": "main",
             "index": 0
           }
@@ -440,7 +375,7 @@
       "main": [
         [
           {
-            "node": "Parseia JSON",
+            "node": "Parse JSON",
             "type": "main",
             "index": 0
           }
@@ -451,7 +386,7 @@
       "main": [
         [
           {
-            "node": "Parseia JSON",
+            "node": "Parse JSON",
             "type": "main",
             "index": 0
           }
@@ -473,7 +408,7 @@
       "main": [
         [
           {
-            "node": "Responde no Telegram",
+            "node": "Reply to Telegram",
             "type": "main",
             "index": 0
           }
