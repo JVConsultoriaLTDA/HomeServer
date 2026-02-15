@@ -105,9 +105,9 @@ docker compose logs -f
 ### Shell Aliases (Optional)
 Add to your `~/.zshrc`:
 ```bash
-alias home-server-up="docker compose -f ~/Documents/GitHub/HomeServer/docker-compose.yml up -d"
-alias home-server-down="docker compose -f ~/Documents/GitHub/HomeServer/docker-compose.yml down"
-alias home-server-logs="docker compose -f ~/Documents/GitHub/HomeServer/docker-compose.yml logs -f"
+alias home-server-up="docker compose up -d"
+alias home-server-down="docker compose down"
+alias home-server-logs="docker compose logs -f"
 ```
 
 ## Troubleshooting

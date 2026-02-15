@@ -4,8 +4,8 @@
 
 If you discover a security vulnerability within this project, please **do not open a public issue**. Instead, please report it via one of the following methods:
 
-1. **Email**: [Add your email or contact method here]
-2. **GitHub Private Reporting**: If enabled for this repository, please use the "Report a vulnerability" button in the Security tab.
+1. **GitHub Private Reporting**: Please use the "Report a vulnerability" button in the Security tab of the repository.
+2. **Email**: joaovitorlopescapi@gmail.com
 
 We take security seriously and will make every effort to acknowledge your report and address the issue promptly.
 
